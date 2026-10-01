@@ -147,6 +147,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const lines = parseSubscription(rawText);
             
+            if (rawText.toLowerCase().includes('<html')) {
+                throw new Error("Server returned an HTML page (likely a Cloudflare block). Please open the link manually, copy the text, and paste it here directly.");
+            }
             if (lines.length === 0) {
                 throw new Error("Subscription is empty or invalid. Check your link or text.");
             }
