@@ -66,7 +66,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         
-        throw new Error("All fetch attempts failed. The server might be blocking requests or taking too long. Last error: " + (lastError?.message || "Unknown error"));
+        const errorMsg = lastError?.message || "Unknown error";
+        if (errorMsg.includes("Failed to fetch") || errorMsg.includes("NetworkError")) {
+            throw new Error("Network error: Your browser, Adblocker, or ISP is blocking the request to the proxy servers. Please open the link in a new tab, copy the text, and paste it directly into the input box above.");
+        }
+        
+        throw new Error("All fetch attempts failed. The server might be blocking requests or taking too long. Last error: " + errorMsg);
     }
 
     function parseSubscription(text) {
